@@ -23,7 +23,15 @@ router.get('/:id', mw.checkCarId, async (req, res, next)=>{
     }
 })
 
-// router.post('/')
+router.post('/', mw.checkCarPayload, mw.checkVinNumberValid, async(req,res,next)=>{
+    const {car} = req.body
+    try{
+        const data = await Cars.create(car)
+        res.status(201).json(data)
+    }catch(err){
+        next(err)
+    }
+})
 
 router.use((err,req,res, next)=>{
     res.status(err.status || 500).json({
