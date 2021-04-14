@@ -45,7 +45,7 @@ const checkCarPayload = (req, res, next) => {
 }
 
 const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
+  //DO YOUR MAGIC
   const {vin} = req.body
   if(!vinValidator.validate(vin)){
     res.status(400).json({message:`vin ${vin} is invalid`})
@@ -59,7 +59,7 @@ const checkVinNumberUnique = async (req, res, next) => {
   const {vin} = req.body
   //filter all data for vin if array comes back with more than 1, reject, if only one next
   try{
-    const existingVin = await db("cars").where('vin', vin)
+    const existingVin = await db("cars").where('vin', vin).first()
     if(existingVin){
       res.status(400).json({message: `vin ${vin} already exists` })
     }
